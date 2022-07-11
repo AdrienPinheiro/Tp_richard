@@ -5,10 +5,10 @@ import java8.data.domain.Order;
 import java8.data.domain.Pizza;
 import org.junit.Test;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -24,6 +24,7 @@ public class Stream_01_Test {
 
 		// TODO récupérer la liste des pizzas dont le prix est >= 1300
 		List<Pizza> result = null;
+		result = pizzas.stream().filter(p -> p.getPrice() >= 1300).collect(Collectors.toList());
 
 		assertThat(result, hasSize(3));
 		assertThat(result, everyItem(hasProperty("price", anyOf(equalTo(1300), greaterThan(1300)))));
@@ -35,6 +36,7 @@ public class Stream_01_Test {
 
 		// TODO compter le nombre de pizzas dont le prix est >= 1300
 		long result = 0L;
+		result = pizzas.stream().filter(p -> p.getPrice() >= 1300).count();
 
 		assertThat(result, is(3L));
 	}
@@ -46,9 +48,11 @@ public class Stream_01_Test {
 
 		// TODO valider si au moins une pizza à un prix >= 1300
 		Boolean result1 = null;
+		result1 = pizzas.stream().anyMatch(p -> p.getPrice() >= 1300);
 
 		// TODO valider si au moins une pizza à un prix >= 2000
 		Boolean result2 = null;
+		result2 = pizzas.stream().anyMatch(p -> p.getPrice() >= 2000);
 
 		assertThat(result1, is(true));
 		assertThat(result2, is(false));
@@ -61,9 +65,11 @@ public class Stream_01_Test {
 
 		// TODO valider que toutes les pizzas ont un prix >= 1300
 		Boolean result1 = null;
+		result1 = pizzas.stream().allMatch(p -> p.getPrice() >= 1300);
 
 		// TODO valider que toutes les pizzas ont un prix >= 900
 		Boolean result2 = null;
+		result2 = pizzas.stream().allMatch(p -> p.getPrice() >= 900);
 
 		assertThat(result1, is(false));
 		assertThat(result2, is(true));
@@ -76,6 +82,7 @@ public class Stream_01_Test {
 
 		// TODO valider qu'aucune pizza n'a un prix >= 2000
 		Boolean result1 = null;
+		result1 = pizzas.stream().noneMatch(p -> p.getPrice() >= 2000);
 
 		assertThat(result1, is(true));
 	}
@@ -86,6 +93,7 @@ public class Stream_01_Test {
 
 		// TODO récupérer une commande faite par un client dont le prénom est "Sophie"
 		Optional<Order> result = null;
+		result = orders.stream().filter(o -> o.getCustomer().getFirstname().equals("Sophie")).findFirst();
 
 		assertThat(result.isPresent(), is(false));
 	}
@@ -100,7 +108,8 @@ public class Stream_01_Test {
 		// TODO récupérer la liste de toutes les commandes qui contiennent au moins une
 		// pizza Pépéroni
 		List<Order> result = null;
-
+		result = orders.stream().filter(o -> o.getPizzas().stream().anyMatch(p -> p.getName().equals("Pépéroni"))).collect(Collectors.toList());
+		System.out.println(result);
 		assertThat(result, hasSize(3));
 	}
 }
