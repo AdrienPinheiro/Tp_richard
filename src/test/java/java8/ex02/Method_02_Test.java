@@ -7,6 +7,8 @@ import org.junit.Test;
 import java8.data.Data;
 import java8.data.Person;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Exercice 02 - Redéfinition
  */
@@ -16,6 +18,7 @@ public class Method_02_Test {
     interface IDao {
         List<Person> findAll();
 
+        String nbrPerson(List<Person> people);
         // TODO créer une méthode String format()
         // TODO la méthode retourne une chaîne de la forme [<nb_personnes> persons]
         // TODO exemple de résultat : "[14 persons]", "[30 persons]"
@@ -30,6 +33,13 @@ public class Method_02_Test {
         @Override
         public List<Person> findAll() {
             return people;
+        }
+
+        @Override
+        public String nbrPerson(List<Person> people) {
+            String resultStr;
+            int result = people.size();
+            return resultStr = "DaoA[" + result + " person" + (result > 1 ? "s]" : "]");
         }
 
         // TODO redéfinir la méthode String format()
@@ -47,6 +57,7 @@ public class Method_02_Test {
 
         // TODO invoquer la méthode format() pour que le test soit passant
         String result = null;
+        result = daoA.nbrPerson(daoA.findAll());
 
         assert "DaoA[20 persons]".equals(result);
     }
